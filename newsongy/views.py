@@ -57,9 +57,8 @@ class LoginView(View):
 
             token = obtain_token(person)
             print('token : {}', token)
-
+            print(settings.COOKIE_DOMAIN)
             response = HttpResponseRedirect(reverse('home'))
-
             response.set_cookie(key='holyhappy_token', value=token, domain=settings.COOKIE_DOMAIN)
 
             return response
