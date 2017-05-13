@@ -5,9 +5,8 @@ from django.template.response import TemplateResponse
 from django.views.generic import View
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.conf import settings
 from bible.models import Bible
-from holyhappy import settings
 from holyhappy.utils.api_result import APIResult, APIStatusCode, APIStatusMessage, APIResultSerializer
 from holyhappy.utils.connector import RedisConnector
 from holyhappy.utils.jwt_util import obtain_token
