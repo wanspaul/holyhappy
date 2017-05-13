@@ -12,7 +12,9 @@ from holyhappy.utils.connector import RedisConnector
 from holyhappy.utils.jwt_util import obtain_token
 from newsongy.models import Person
 from pray.models import Pray, Attendance
+import logging
 
+logger = logging.getLogger(__name__)
 
 class RootView(APIView):
     def get(self, request):
@@ -48,10 +50,11 @@ class LoginView(View):
                 raise ValueError('비밀번호가 일치하지 않습니다.')
 
             token = obtain_token(person)
+            print('token : {}', token)
 
             response = HttpResponseRedirect(reverse('home'))
 
-            response.set_cookie(key='holyhappy_token', value=token, domain='nsmsc.kr')
+            response.set_cookie(key='holyhappy_token', value=token, domain=settings.COOKIE_DOMAIN)
 
             return response
 
@@ -60,10 +63,12 @@ class LoginView(View):
                 'error': '존재하지 않는 계정입니다.'
             }
         except ValueError as e:
+            logger.info(e)
             context = {
                 'error': e
             }
-        except:
+        except Exception as e:
+            logger.info(e)
             context = {
                 'error': '알수 없는 에러가 발생했습니다.'
             }
