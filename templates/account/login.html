@@ -1,0 +1,67 @@
+{% extends "common/login_base.html" %}
+
+{% load staticfiles %}
+
+{% block css %}
+    <style>
+        select, input { margin: 4px 0px; }
+        #dept { width:45%; display:inline }
+        #group { width:45%; display:inline }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="text-center">
+            <img src="{% static 'images/holyhappyspring.jpeg' %}" width="70%"/>
+        </div>
+        <div id="login_panel" class="panel panel-default">
+            <div class="panel-body">
+            <form id="login_form" class="form-signin" method="post">
+                {% csrf_token %}
+                <select id="dept" name="dept" class="form-control input-sm">
+                    <option value="U">대학부</option>
+                    <option value="Y">청년부</option>
+                </select>
+                <select id="group" name="group" class="form-control input-sm">
+                    <option value="1A">1A</option>
+                    <option value="1B">1B</option>
+                    <option value="1C">1C</option>
+                    <option value="1D">1D</option>
+                    <option value="2A">2A</option>
+                    <option value="2B">2B</option>
+                    <option value="2C">2C</option>
+                    <option value="2D">2D</option>
+                    <option value="3A">3A</option>
+                    <option value="3B">3B</option>
+                    <option value="3C">3C</option>
+                    <option value="3D">3D</option>
+                    <option value="4A">4A</option>
+                    <option value="4B">4B</option>
+                    <option value="4C">4C</option>
+                    <option value="4D">4D</option>
+                </select>
+                <label for="name" class="sr-only">이름</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="이름" required autofocus>
+                <label for="password" class="sr-only">전화번호 뒤 4자리</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="전화번호 뒤 4자리" required>
+                <div class="text-center">
+                    <a href="javascript:login();"><img src="{% static 'images/newsongy_green.png' %}" width="60px" /></a>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    function login() {
+        $("#login_form").submit();
+    }
+    $(document).ready(function() {
+    });
+</script>
+{% endblock %}

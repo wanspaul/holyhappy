@@ -1,0 +1,94 @@
+{% extends "common/base.html" %}
+
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/bootswitch/css/bootstrap3/bootstrap-switch.min.css' %}" />
+    <style>
+        textarea { font-size: 11px; }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="col-xs-12">
+    <div class="alert alert-success" role="alert">
+        오늘의 말씀을 읽고 해당 날짜 칸에 묵상내용을 간단하게 적어보세요. 화면을 캡쳐해서 그룹원들과 함께 나눠보세요.
+    </div>
+
+    <div class="panel">
+        <table class="table table-condensed">
+            <colgroup>
+                <col width="40%" />
+                <col width="40%" />
+                <col width="20%" />
+            </colgroup>
+        {% for item in read_bible_list %}
+            <tr>
+                <td>{{ item.day }}</td>
+                <td>{{ item.title }}</td>
+                <td>
+                    <input type="checkbox" data-on-text="읽음" data-off-text="체크" data-size="mini" data-bible-id="{{ item.id }}" {% if item.read == True %}checked{% endif %}>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <textarea id="memo_{{ item.id }}" placeholder="{{ item.placeholder }}" style="width:100%">{{ item.memo }}</textarea>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-xs btn-primary" onclick="updateMemo({{ item.id }})">저장</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'lib/bootswitch/js/bootstrap-switch.min.js' %}"></script>
+    <script type="text/javascript">
+        function updateRead(e, state) {
+            $.ajax({
+                url: "{% url 'update_read_bible' %}",
+                type: 'POST',
+                data: {
+                    'bible_id': $(this).attr('data-bible-id'),
+                    'read': state,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(error) {
+                    alert('에러가 발생하였습니다. 다시 시도해주세요.');
+                    //location.reload();
+                }
+            });
+        }
+
+        function updateMemo(bible_id) {
+            $.ajax({
+                url: "{% url 'update_memo' %}",
+                type: 'POST',
+                data: {
+                    'bible_id': bible_id,
+                    'memo': $("#memo_" + bible_id).val(),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    alert('저장되었습니다.');
+                    location.reload();
+                },
+                error: function(error) {
+                    alert('에러가 발생하였습니다. 다시 시도해주세요.');
+                    //location.reload();
+                }
+            });
+        }
+        $(document).ready(function() {
+            $("input:checkbox").bootstrapSwitch();
+            $("input:checkbox").on('switchChange.bootstrapSwitch', updateRead);
+
+        });
+    </script>
+{% endblock %}

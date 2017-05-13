@@ -1,0 +1,58 @@
+{% extends "common/base.html" %}
+
+{% load staticfiles %}
+
+{% block css %}
+<style>
+.btn {
+  -webkit-border-radius: 16;
+  -moz-border-radius: 16;
+  border-radius: 16px;
+  text-shadow: 1px 1px 3px #666666;
+  font-family: Courier New;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 60px 42px 60px 42px;
+  text-decoration: none;
+}
+.btn:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.btn_color1 {
+    background: #6eb18d;
+}
+.btn_color2 {
+    background: #5a9485;
+}
+.navbar { background: #758d91; }
+#goal p.goal { color:#ccc; font-size: 20px; padding-top: 12px; text-align: center; line-height:40px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="col-xs-12">
+    <div class="text-center">
+        <img src="{% static 'images/holyhappyspring.jpeg' %}" width="70%"/>
+    </div>
+    <div style="margin-top:20px;">
+        <div class="col-xs-6">
+            <a href="{% url 'pray' %}"><button class="btn btn_color1">기도</button></a>
+        </div>
+        <div class="col-xs-6">
+            <a href="{% url 'bible_objective' %}"><button class="btn btn_color2">말씀</button></a>
+        </div>
+    </div>
+</div>
+<div id="goal" class="navbar navbar-fixed-bottom" style="margin-bottom:100px;">
+    <p class="goal"><a href="{% url 'goal' %}">전체현황</a></p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+    });
+</script>
+{% endblock %}

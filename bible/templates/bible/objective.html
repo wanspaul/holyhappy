@@ -1,0 +1,71 @@
+{% extends "common/base.html" %}
+
+{% load staticfiles %}
+
+{% block css %}
+<style>
+.btn {
+  text-shadow: 1px 1px 3px #666666;
+  font-family: Courier New;
+  color: #ffffff;
+  font-size: 18px;
+  padding: 60px 60px 60px 60px;
+  text-decoration: none;
+}
+.btn:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.btn_color1 {
+    background: #6eb18d;
+}
+.btn_color2 {
+    background: #5a9485;
+}
+.btn_padding_except {
+    padding:60px 54.3px;
+}
+table td { padding:6px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="col-xs-12">
+    <br />
+    <br />
+    <div class="text-center">
+        <h3>매일 성경 읽기</h3><h4>몇장을 목표로 하시나요?</h4>
+        <h6>* 한번 설정한 목표는 바꿀 수 없습니다.</h6>
+    </div>
+
+    <div style="margin:0px auto;">
+        <table border="0" width="100%">
+            <tr>
+                <td>
+                    <a href="{% url 'set_objective' 1 %}"><button class="btn btn_color1"> 1장</button></a>
+                </td>
+                <td>
+                    <a href="{% url 'set_objective' 3 %}"><button class="btn btn_color2"> 3장</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="{% url 'set_objective' 5 %}"><button class="btn btn_color2"> 5장</button></a>
+                </td>
+                <td>
+                    <a href="{% url 'set_objective' 10 %}"><button class="btn btn_color1 btn_padding_except">10장</button></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+        });
+    </script>
+{% endblock %}

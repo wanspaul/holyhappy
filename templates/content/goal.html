@@ -1,0 +1,109 @@
+{% extends "common/base.html" %}
+
+{% block css %}
+<style>
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.circle {
+  width: 250px;
+  height: 250px;
+  margin-left: 0;
+{#  border: 7px solid #f1f1f1;#}
+  border-radius: 100%;
+  text-align: center;
+  color: #fff;
+  background-color: #666;
+  text-shadow: 0px 0px 30px rgba(119, 119, 119, 0.7);
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+.circle-text {
+  font-size: 160px;
+  letter-spacing: 4px;
+  font-family: "Montserrat","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight: 700;
+  margin: 0;
+  width: 100%;
+}
+
+/* For illustration, no effect on click */
+.example {
+   background: linear-gradient(#a0c884 34%, #426e1f 34%);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="col-xs-12">
+    <div class="text-center">
+        <h4>목표는 500회!</h4>
+    </div>
+    <div>
+        <p style="color:#fff;">Click:</p>
+        <!-- Fillable bubble -->
+        <div id="goal" class="circle fill" data-fill="64" style="margin:0px auto;">
+            <p class="circle-text">Y</p>
+        </div>
+        <br />
+        <!-- / Fillable bubble -->
+    </div>
+    <br /><br />
+    <div class="text-center">
+        <h4>
+        현재까지 기도는 {{ pray_score }}회,
+        </h4>
+        <h4>
+            성경읽기 목표는 {{ bible_score }}회 달성되었습니다.
+        </h4>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+
+function animate( $that, percentage ) {
+  if ( !$that.hasClass('fill') ) return;
+  $that.removeClass('fill');
+
+  percentage = (100 - percentage) || 0;
+  var percentage_initial = 100,
+      percentage_current = percentage_initial,
+      interval = 0.5;
+
+  var interval_gradient = setInterval(function(){
+    $that.css(
+      'background',
+      'linear-gradient(#666 '+percentage_current+'%,#5a9485 '+percentage_current+'%)'
+    );
+    percentage_current -= interval;
+    if(percentage_current <= percentage) clearInterval(interval_gradient);
+  }, 5);
+
+  $that.addClass('filled');
+};
+
+$('.fill').on('click', function() {
+});
+
+
+    $(document).ready(function() {
+        var $that = $("#goal");
+        var percentage = $that.attr('data-fill');
+        setTimeout(function(){
+            animate( $that, percentage )
+        }, 400);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "common/base.html" %}
+
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/bootswitch/css/bootstrap3/bootstrap-switch.min.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="col-xs-12">
+    <br /><br />
+    <div class="text-center">
+        <h5>아침, 저녁 교회에 오셔서 기도하시는 여러분!</h5>
+        <h5>출석체크 해주세요!</h5>
+    </divㅑ>
+    <br />
+    <div class="panel clear">
+        <table class="table">
+            <colgroup>
+                <col width="33%" />
+                <col width="33%" />
+                <col width="33%" />
+            </colgroup>
+            <thead>
+            <th>날짜</th>
+            <th>아침</th>
+            <th>저녁</th>
+            </thead>
+            <tbody>
+                {% for item in pray_list %}
+                    <tr>
+                        <td>{{ item.pray_dt|date:"d" }}일</td>
+                        <td>
+                            <input type="checkbox" data-on-text="출석" data-off-text="결석" data-size="mini" data-pray-id="{{ item.id }}" data-pray-time="M" {% if item.M == True %}checked{% endif %}>
+                        </td>
+                        <td>
+                            <input type="checkbox" data-on-text="출석" data-off-text="결석" data-size="mini" data-pray-id="{{ item.id }}" data-pray-time="N" {% if item.N == True %}checked{% endif %}>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'lib/bootswitch/js/bootstrap-switch.min.js' %}"></script>
+    <script type="text/javascript">
+        function updateAttendance(e, state) {
+            $.ajax({
+                url: "{% url 'update_attendance' %}",
+                type: 'POST',
+                data: {
+                    'pray_id': $(this).attr('data-pray-id'),
+                    'pray_time': $(this).attr('data-pray-time'),
+                    'joined': state,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(error) {
+                    alert('에러가 발생하였습니다. 다시 시도해주세요.');
+                    //location.reload();
+                }
+            });
+        }
+        $(document).ready(function() {
+            $("input:checkbox").bootstrapSwitch();
+            $("input:checkbox").on('switchChange.bootstrapSwitch', updateAttendance);
+
+        });
+    </script>
+{% endblock %}
