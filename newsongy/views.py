@@ -51,7 +51,7 @@ class LoginView(View):
 
             response = HttpResponseRedirect(reverse('home'))
 
-            response.set_cookie(key='holyhappy_token', value=token, domain=settings.COOKIE_DOMAIN)
+            response.set_cookie(key='holyhappy_token', value=token, domain='holyhappy.nsmsc.kr')
 
             return response
 
