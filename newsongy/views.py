@@ -296,10 +296,13 @@ class GoalView(APIView):
         )
 
         pray_score = attendance_score['sum_morning'] or 0 + attendance_score['sum_afternoon'] or 0
-
+        if bible_score['sum_read']:
+            sum_read = int(bible_score['sum_read'])
+        else:
+            sum_read = 0
 
         context = {
             'pray_score': int(pray_score),
-            'bible_score': int(bible_score['sum_read']) or 0
+            'bible_score': int(sum_read)
         }
         return TemplateResponse(request, 'content/goal.html', context)
