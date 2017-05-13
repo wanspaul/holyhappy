@@ -17,7 +17,6 @@ def obtain_token(person: Person):
         'group': person.group,
         'exp': datetime.utcnow() + api_settings.JWT_EXPIRATION_DELTA
     }
-
     # Include original issued at time for a brand new token,
     # to allow token refresh
     if api_settings.JWT_ALLOW_REFRESH:

@@ -16,6 +16,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class RootView(APIView):
     def get(self, request):
         """
@@ -40,6 +41,11 @@ class LoginView(View):
         dept = request.POST.get('dept')
         group = request.POST.get('group')
         password = request.POST.get('password')
+
+        print(name)
+        print(dept)
+        print(group)
+        print(password)
 
         try:
             person = Person.objects.get(name=name, dept=dept, group=group)
