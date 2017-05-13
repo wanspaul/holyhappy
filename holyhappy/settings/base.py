@@ -109,3 +109,77 @@ STATICFILES_DIRS = (os.path.join('static'), )
 
 REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6579'
+
+LOGGING = {
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': 'MARTIAN %(levelname)s %(asctime)s %(message)s'
+        },
+        'template': {
+            'format': 'TEMPLATE %(levelname)s %(asctime)s %(message)s'
+        },
+        'db': {
+            'format': 'DB %(levelname)s %(asctime)s %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'version': 1,
+    'handlers': {
+        'console': {
+            # logging handler that outputs log messages to terminal
+            'class': 'logging.StreamHandler',
+            'level': 'DEBUG',  # message level to be written to console
+            'formatter': 'verbose',
+        },
+        'console_template': {
+            'class': 'logging.StreamHandler',
+            'level': 'DEBUG',
+            'formatter': 'template'
+        },
+        'console_db': {
+            'class': 'logging.StreamHandler',
+            'level': 'DEBUG',
+            'formatter': 'db'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/holyhappy.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        '': {
+            # this sets root level logger to log debug and higher level
+            # logs to console. All other loggers inherit settings from
+            # root level logger.
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,  # this tells logger to send logging message
+            # to its parent (will send if set to True)
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django.template': {
+            'handlers': ['console_template'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console_db'],
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+    },
+}
