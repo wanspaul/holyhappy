@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse
-from django.db.models import Sum
+from django.db.models import Sum, IntegerField
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.views.generic import View
@@ -42,11 +42,6 @@ class LoginView(View):
         group = request.POST.get('group')
         password = request.POST.get('password')
 
-        print(name)
-        print(dept)
-        print(group)
-        print(password)
-
         try:
             person = Person.objects.get(name=name, dept=dept, group=group)
             # aes = SimpleEncryptor(password)
@@ -56,8 +51,6 @@ class LoginView(View):
                 raise ValueError('비밀번호가 일치하지 않습니다.')
 
             token = obtain_token(person)
-            print('token : {}', token)
-            print(settings.COOKIE_DOMAIN)
             response = HttpResponseRedirect(reverse('home'))
             response.set_cookie(key='holyhappy_token', value=token, domain=settings.COOKIE_DOMAIN)
 
@@ -284,24 +277,33 @@ class MemoEditView(APIView):
 
 
 class GoalView(APIView):
+
+    GOAL_SUM = 500
+
     def get(self, request):
 
         attendance_score = Attendance.objects.aggregate(
-            sum_morning=Sum('joined_morning'),
-            sum_afternoon=Sum('joined_afternoon')
+            sum_morning=Sum('joined_morning', output_field=IntegerField()),
+            sum_afternoon=Sum('joined_afternoon', output_field=IntegerField())
         )
 
         bible_score = Bible.objects.aggregate(
-            sum_read=Sum('read')
+            sum_read=Sum('read', output_field=IntegerField())
         )
 
-        pray_score = attendance_score['sum_morning'] or 0 + attendance_score['sum_afternoon'] or 0
+        sum_morning = attendance_score['sum_morning'] or 0
+        sum_afternoon = attendance_score['sum_afternoon'] or 0
+
+        pray_score = sum_morning + sum_afternoon
+
         if bible_score['sum_read']:
             sum_read = int(bible_score['sum_read'])
         else:
             sum_read = 0
 
         context = {
+            'goal_sum': self.GOAL_SUM,
+            'goal_rate': (int(pray_score) + int(sum_read)) * 100 / self.GOAL_SUM,
             'pray_score': int(pray_score),
             'bible_score': int(sum_read)
         }

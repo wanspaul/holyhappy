@@ -47,12 +47,12 @@
 {% block content %}
 <div class="col-xs-12">
     <div class="text-center">
-        <h4>목표는 500회!</h4>
+        <h4>목표는 {{ goal_sum }}회!</h4>
     </div>
     <div>
         <p style="color:#fff;">Click:</p>
         <!-- Fillable bubble -->
-        <div id="goal" class="circle fill" data-fill="64" style="margin:0px auto;">
+        <div id="goal" class="circle fill" data-fill="{{ goal_rate }}" style="margin:0px auto;">
             <p class="circle-text">Y</p>
         </div>
         <br />

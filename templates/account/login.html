@@ -21,10 +21,14 @@
             <form id="login_form" class="form-signin" method="post">
                 {% csrf_token %}
                 <select id="dept" name="dept" class="form-control input-sm">
+                    <option value="">-- 소속선택 --</option>
                     <option value="U">대학부</option>
                     <option value="Y">청년부</option>
+                    <option value="T">선생님</option>
                 </select>
                 <select id="group" name="group" class="form-control input-sm">
+                    <option value="">-- 그룹선택 --</option>
+                    <option value="T">선생님</option>
                     <option value="1A">1A</option>
                     <option value="1B">1B</option>
                     <option value="1C">1C</option>
@@ -59,6 +63,24 @@
 {% block scripts %}
 <script type="text/javascript">
     function login() {
+        if($("#dept").val() == "") {
+            alert("소속을 선택해주세요.");
+            $("#dept").focus();
+            return false;
+        }
+        if($("#group").val() == "") {
+            alert("그룹을 선택해주세요.");
+            $("#group").focus();
+            return false;
+        }
+        if($("#name").val() == "") {
+            alert("이름을 입력해주세요.");
+            $("#name").focus();
+        }
+        if($("#password").val() == "") {
+            alert("본인의 전화번호 뒤 4자리를 입력해주세요.");
+            $("#password").focus();
+        }
         $("#login_form").submit();
     }
     $(document).ready(function() {
