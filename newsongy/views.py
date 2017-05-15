@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.core.urlresolvers import reverse
 from django.db.models import Sum, IntegerField
 from django.http import HttpResponseRedirect
@@ -34,7 +36,18 @@ class HomeView(APIView):
 
 class LoginView(View):
     def get(self, request):
-        return TemplateResponse(request, 'account/login.html')
+        login_info = request.COOKIES.get('holyhappy_login_info')
+
+        context = {}
+        if login_info:
+            info_list = login_info.split(':')
+            if len(info_list) == 2:
+                context = {
+                    'dept': info_list[0],
+                    'group': info_list[1]
+                }
+
+        return TemplateResponse(request, 'account/login.html', context)
 
     def post(self, request):
         name = request.POST.get('name')
@@ -53,6 +66,7 @@ class LoginView(View):
             token = obtain_token(person)
             response = HttpResponseRedirect(reverse('home'))
             response.set_cookie(key='holyhappy_token', value=token, domain=settings.COOKIE_DOMAIN)
+            response.set_cookie(key='holyhappy_login_info', value='{}:{}'.format(dept,group), domain=settings.COOKIE_DOMAIN, expires=datetime.now() + timedelta(7))
 
             return response
 

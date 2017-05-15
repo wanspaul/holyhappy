@@ -22,29 +22,29 @@
                 {% csrf_token %}
                 <select id="dept" name="dept" class="form-control input-sm">
                     <option value="">-- 소속선택 --</option>
-                    <option value="U">대학부</option>
-                    <option value="Y">청년부</option>
-                    <option value="T">선생님</option>
+                    <option value="U" {% if dept == 'U' %}selected="selected"{% endif %}>대학부</option>
+                    <option value="Y" {% if dept == 'Y' %}selected="selected"{% endif %}>청년부</option>
+                    <option value="T" {% if dept == 'T' %}selected="selected"{% endif %}>선생님</option>
                 </select>
                 <select id="group" name="group" class="form-control input-sm">
                     <option value="">-- 그룹선택 --</option>
-                    <option value="T">선생님</option>
-                    <option value="1A">1A</option>
-                    <option value="1B">1B</option>
-                    <option value="1C">1C</option>
-                    <option value="1D">1D</option>
-                    <option value="2A">2A</option>
-                    <option value="2B">2B</option>
-                    <option value="2C">2C</option>
-                    <option value="2D">2D</option>
-                    <option value="3A">3A</option>
-                    <option value="3B">3B</option>
-                    <option value="3C">3C</option>
-                    <option value="3D">3D</option>
-                    <option value="4A">4A</option>
-                    <option value="4B">4B</option>
-                    <option value="4C">4C</option>
-                    <option value="4D">4D</option>
+                    <option value="T" {% if group == 'T' %}selected="selected"{% endif %}>선생님</option>
+                    <option value="1A" {% if group == '1A' %}selected="selected"{% endif %}>1A</option>
+                    <option value="1B" {% if group == '1B' %}selected="selected"{% endif %}>1B</option>
+                    <option value="1C" {% if group == '1C' %}selected="selected"{% endif %}>1C</option>
+                    <option value="1D" {% if group == '1D' %}selected="selected"{% endif %}>1D</option>
+                    <option value="2A" {% if group == '2A' %}selected="selected"{% endif %}>2A</option>
+                    <option value="2B" {% if group == '2B' %}selected="selected"{% endif %}>2B</option>
+                    <option value="2C" {% if group == '2C' %}selected="selected"{% endif %}>2C</option>
+                    <option value="2D" {% if group == '2D' %}selected="selected"{% endif %}>2D</option>
+                    <option value="3A" {% if group == '3A' %}selected="selected"{% endif %}>3A</option>
+                    <option value="3B" {% if group == '3B' %}selected="selected"{% endif %}>3B</option>
+                    <option value="3C" {% if group == '3C' %}selected="selected"{% endif %}>3C</option>
+                    <option value="3D" {% if group == '3D' %}selected="selected"{% endif %}>3D</option>
+                    <option value="4A" {% if group == '4A' %}selected="selected"{% endif %}>4A</option>
+                    <option value="4B" {% if group == '4B' %}selected="selected"{% endif %}>4B</option>
+                    <option value="4C" {% if group == '4C' %}selected="selected"{% endif %}>4C</option>
+                    <option value="4D" {% if group == '4D' %}selected="selected"{% endif %}>4D</option>
                 </select>
                 <label for="name" class="sr-only">이름</label>
                 <input type="text" id="name" name="name" class="form-control" placeholder="이름" required autofocus>
@@ -76,14 +76,14 @@
         if($("#name").val() == "") {
             alert("이름을 입력해주세요.");
             $("#name").focus();
+            return false;
         }
         if($("#password").val() == "") {
             alert("본인의 전화번호 뒤 4자리를 입력해주세요.");
             $("#password").focus();
+            return false;
         }
         $("#login_form").submit();
     }
-    $(document).ready(function() {
-    });
 </script>
 {% endblock %}
