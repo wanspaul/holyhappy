@@ -173,7 +173,7 @@ class BibleObjectiveView(APIView):
 class SetObjectiveView(APIView):
 
     def get(self, request, page):
-        objective_1 = ('요일 1', '요일 2', '요일 3', '요일 4', '요일 5')
+        objective_1 = ('요한일서 1', '요한일서 2', '요한일서 3', '요한일서 4', '요한일서 5')
         objective_3 = ('엡1-엡3', '엡4-엡6', '빌1-빌3', '빌4-골1', '골2-몬1')
         objective_5 = ('히1-히5', '히6-히10', '히11-약2', '약3-벧전2', '벧전3-벧후3')
         objective_10 = ('롬1-롬10', '롬11-고전4', '고전5-고전14', '고전15-고후8', '고후9-갈6')
@@ -319,6 +319,7 @@ class GoalView(APIView):
             'goal_sum': self.GOAL_SUM,
             'goal_rate': (int(pray_score) + int(sum_read)) * 100 / self.GOAL_SUM,
             'pray_score': int(pray_score),
-            'bible_score': int(sum_read)
+            'bible_score': int(sum_read),
+            'total_score': int(pray_score) + int(sum_read)
         }
         return TemplateResponse(request, 'content/goal.html', context)
